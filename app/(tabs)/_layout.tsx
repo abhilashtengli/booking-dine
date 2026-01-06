@@ -19,10 +19,31 @@ const TabLayout = () => {
     >
       <Tabs.Screen
         name="home"
-        options={{ title: "Home", tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} /> }}
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="home" size={24} color={color} />
+          ),
+        }}
       />
-      <Tabs.Screen name="history" options={{ title: "History" }} />
-      <Tabs.Screen name="profile" options={{ title: "profile" }} />
+      <Tabs.Screen
+        name="history"
+        options={{
+          title: "History",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="time" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "profile",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="person-sharp" size={24} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 };
