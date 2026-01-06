@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Formik } from "formik";
+import { signupSchemaValidation } from "@/utils/signupSchema";
 const logo = require("@/assets/images/dinetimelogo.png");
 const entryImg = require("@/assets/images/Frame.png");
 export default function Signup() {
@@ -36,8 +37,9 @@ export default function Signup() {
           <View className="w-5/6">
             <Formik
               initialValues={{ email: "", password: "" }}
-              validationSchema={""}
+              validationSchema={signupSchemaValidation}
               onSubmit={handleSignup}
+              validateOnMount
             >
               {({
                 handleChange,
@@ -53,12 +55,12 @@ export default function Signup() {
                     className="h-11 border mt-3 border-white text-white rounded-md px-2"
                     keyboardType="email-address"
                     onChangeText={handleChange("email")}
-                    onBlur={handleBlur}
+                    onBlur={handleBlur("email")}
                     value={values.email}
                   />
 
                   {touched.email && errors.email && (
-                    <Text className="text-red-500 text-xs mb-2">
+                    <Text className="text-red-500 text-sm mb-2 mt-2">
                       {errors.email}
                     </Text>
                   )}
@@ -67,12 +69,12 @@ export default function Signup() {
                     className="h-11 border mt-3 border-white text-white rounded-md px-2"
                     secureTextEntry
                     onChangeText={handleChange("password")}
-                    onBlur={handleBlur}
+                    onBlur={handleBlur("password")}
                     value={values.password}
                   />
 
-                  {touched.email && errors.password && (
-                    <Text className="text-red-500 text-xs mb-2">
+                  {touched.password && errors.password && (
+                    <Text className="text-red-500 text-sm mb-2 mt-2">
                       {errors.password}
                     </Text>
                   )}
