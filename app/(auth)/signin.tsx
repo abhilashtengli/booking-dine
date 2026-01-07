@@ -87,6 +87,14 @@ export default function Signin() {
                       Sign In
                     </Text>
                   </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => router.push("/home")}
+                    className=" my-2 py-2 bg-[#2b2b2b]  border border-[#f49b33] rounded-lg "
+                  >
+                    <Text className="text-xl text-[#f49b33]  text-center tracking-wider">
+                      Guest User
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               )}
             </Formik>
