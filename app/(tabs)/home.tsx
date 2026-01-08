@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -13,7 +13,9 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
-import { restaurants } from "@/store/resturant";
+import { collection, getDocs, query } from "firebase/firestore";
+import { db } from "@/config/firebaseConfig";
+import { useRouter } from "expo-router";
 const logo = require("@/assets/images/dinetimelogo.png");
 const banner = require("@/assets/images/homeBanner.png");
 
@@ -27,8 +29,34 @@ type Restaurant = {
 };
 
 export default function Home() {
+  const router = useRouter();
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+
+  const getRestaurants = async () => {
+    const q = query(collection(db, "restaurants"));
+    const res = await getDocs(q);
+
+    const data: Restaurant[] = res.docs.map((doc) => ({
+      ...(doc.data() as Restaurant),
+    }));
+
+    setRestaurants(data);
+  };
+
+  useEffect(() => {
+    getRestaurants();
+  }, []);
+
   const renderItem: ListRenderItem<Restaurant> = ({ item }) => (
-    <TouchableOpacity className="bg-[#5f5f5f] rounded-lg shadow-md flex p-4 mx-4 max-h-64 max-w-xs">
+    <TouchableOpacity
+      onPress={() =>
+        router.push({
+          pathname: "/resturants/[resturant]",
+          params: { resturant: item.name },
+        })
+      }
+      className="bg-[#5f5f5f] rounded-lg shadow-md flex p-4 mx-4 max-h-64 max-w-xs"
+    >
       <Image
         resizeMode="cover"
         source={{ uri: item.image }}
@@ -90,7 +118,14 @@ export default function Home() {
             contentContainerStyle={{ padding: 16 }}
           />
         ) : (
-          <ActivityIndicator animating color={"fb9b33"} />
+          <View className="flex flex-row ">
+            <TouchableOpacity className="ml-9 bg-[#383838] h-52 w-80 justify-center items-center rounded-lg shadow-md flex p-4 mx-4 max-h-64 max-w-xs">
+              <ActivityIndicator animating color={"fb9b33"} />
+            </TouchableOpacity>
+            <TouchableOpacity className=" bg-[#383838] h-52 w-72 justify-center items-center rounded-lg shadow-md flex p-4 mx-4 max-h-64 max-w-xs">
+              <ActivityIndicator animating color={"fb9b33"} />
+            </TouchableOpacity>
+          </View>
         )}
         <View className="p-4 bg-[#2b2b2b] flex-row items-center">
           <Text className="text-3xl text-[#fb9b33] mr-2 font-semibold">
@@ -105,7 +140,14 @@ export default function Home() {
             contentContainerStyle={{ padding: 16 }}
           />
         ) : (
-          <ActivityIndicator animating color={"fb9b33"} />
+          <View className="flex flex-row ">
+            <TouchableOpacity className="ml-9 bg-[#383838] h-52 w-80 justify-center items-center rounded-lg shadow-md flex p-4 mx-4 max-h-64 max-w-xs">
+              <ActivityIndicator animating color={"fb9b33"} />
+            </TouchableOpacity>
+            <TouchableOpacity className=" bg-[#383838] h-52 w-72 justify-center items-center rounded-lg shadow-md flex p-4 mx-4 max-h-64 max-w-xs">
+              <ActivityIndicator animating color={"fb9b33"} />
+            </TouchableOpacity>
+          </View>
         )}
       </ScrollView>
     </SafeAreaView>
