@@ -17,12 +17,14 @@ import { CarouselItem, Restaurant, SlotItem } from "@/utils/types";
 import { Ionicons } from "@expo/vector-icons";
 import DatePickerComponent from "@/components/layout/resturant/DatePickerComponent";
 import GuestPickerComponent from "@/components/layout/resturant/GuestPickerComponent";
+import FindSlots from "@/components/layout/resturant/FindSlots";
 
 export default function Resturant() {
   const windowWidth = Dimensions.get("window").width;
   const [resturantData, setResturantData] = useState<Restaurant | null>(null);
   const [carouselData, setCarouselData] = useState<CarouselItem[] | null>(null);
-  const [slotsData, setSlotsData] = useState<SlotItem[] | null>(null);
+  const [slotsData, setSlotsData] = useState<string[] | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const { resturant } = useLocalSearchParams();
   const flatlistRef = useRef<FlatList<string>>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -179,7 +181,7 @@ export default function Resturant() {
         );
 
         setCarouselData(carouselImages);
-        console.log("carouselImages : ", carouselImages);
+        // console.log("carouselImages : ", carouselImages);
 
         //Slots
 
@@ -198,8 +200,8 @@ export default function Resturant() {
           (doc) => doc.data() as SlotItem
         );
 
-        setSlotsData(slots);
-        // console.log("Slots : ", slots);
+        setSlotsData(slots[0].slot);
+        console.log("Slots : ", slots);
       }
     } catch (e) {
       console.log(e);
@@ -281,6 +283,15 @@ export default function Resturant() {
               setSelectedNumber={setSelectedNumber}
             />
           </View>
+        </View>
+        <View className="flex-1">
+          <FindSlots
+            date={date}
+            selectedNumber={selectedNumber}
+            slots={slotsData}
+            selectedSlot={selectedSlot}
+            setSelectedSlot={setSelectedSlot}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

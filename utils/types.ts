@@ -14,7 +14,7 @@ export type CarouselItem = {
 };
 
 export type SlotItem = {
-  ref_id: `/restaurants/${string}`;
+  ref_id: string;
   slot: string[];
 };
 
