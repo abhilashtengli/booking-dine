@@ -48,6 +48,12 @@ export default function Signup() {
         );
         values.email = "";
         values.password = "";
+      } else {
+        Alert.alert(
+          "Signup Error",
+          "The Unexpected Error occurred, Please try again later.",
+          [{ text: "OK" }]
+        );
       }
     }
   };
