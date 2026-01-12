@@ -37,6 +37,7 @@ export default function Signup() {
       });
       await AsyncStorage.setItem("userEmail", values.email);
       console.log("User signed up", user, AsyncStorage.getItem("userEmail"));
+      router.push("/home");
     } catch (error: any) {
       console.log("Error during signup: ", error);
       if (error.code === "auth/email-already-in-use") {
