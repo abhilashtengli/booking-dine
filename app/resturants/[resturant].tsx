@@ -16,6 +16,7 @@ import { db } from "@/config/firebaseConfig";
 import { CarouselItem, Restaurant, SlotItem } from "@/utils/types";
 import { Ionicons } from "@expo/vector-icons";
 import DatePickerComponent from "@/components/layout/resturant/DatePickerComponent";
+import GuestPickerComponent from "@/components/layout/resturant/GuestPickerComponent";
 
 export default function Resturant() {
   const windowWidth = Dimensions.get("window").width;
@@ -25,6 +26,8 @@ export default function Resturant() {
   const { resturant } = useLocalSearchParams();
   const flatlistRef = useRef<FlatList<string>>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [date, setDate] = useState(new Date());
+  const [selectedNumber, setSelectedNumber] = useState(0);
 
   const handleLocation = async () => {
     const url = "https://maps.app.goo.gl/nPYQ877t4MgN8Yux8";
@@ -253,8 +256,31 @@ export default function Resturant() {
             {resturantData?.opening} - {resturantData?.closing}
           </Text>
         </View>
-        <View>
-          <DatePickerComponent />
+        <View className="flex-1 border border-[#f49b33] m-2 p-2 rounded-lg">
+          <View className="flex-1 flex-row m-2 p-2 justify-end items-center  rounded-lg ">
+            <View className="flex-1 flex-row items-center">
+              <Ionicons name="calendar-sharp" size={18} color="#f49b33" />
+              <Text className="text-white mx-2 tracking-wider text-base">
+                Select booking date
+              </Text>
+            </View>
+            <DatePickerComponent date={date} setDate={setDate} />
+          </View>
+          <View
+            style={{ backgroundColor: "#474747" }}
+            className="flex-1 flex-row m-2 p-2 justify-end items-center  rounded-lg border-[#f49b33]"
+          >
+            <View className="flex-1 flex-row items-center">
+              <Ionicons name="people" size={18} color="#f49b33" />
+              <Text className="text-white mx-2 tracking-wider text-base">
+                Select number of guests
+              </Text>
+            </View>
+            <GuestPickerComponent
+              selectedNumber={selectedNumber}
+              setSelectedNumber={setSelectedNumber}
+            />
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
