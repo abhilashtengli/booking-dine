@@ -36,6 +36,7 @@ export default function Signup() {
         createdAt: new Date(),
       });
       await AsyncStorage.setItem("userEmail", values.email);
+      await AsyncStorage.setItem("isGuest", "false");
       console.log("User signed up", user, AsyncStorage.getItem("userEmail"));
       router.push("/home");
     } catch (error: any) {

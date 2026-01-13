@@ -32,6 +32,7 @@ type Restaurant = {
 export default function Home() {
   const router = useRouter();
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [email, setEmail] = useState<string | null>(null);
 
   const getRestaurants = async () => {
@@ -49,6 +50,7 @@ export default function Home() {
     const init = async () => {
       await getRestaurants();
       const storedEmail = await AsyncStorage.getItem("userEmail");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const guestUser = await AsyncStorage.getItem("isGuest");
       setEmail(storedEmail);
     };

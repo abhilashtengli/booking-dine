@@ -34,6 +34,8 @@ export default function Signin() {
       if (userDoc.exists()) {
         console.log("User Data:", userDoc.data());
         await AsyncStorage.setItem("userEmail", values.email);
+        await AsyncStorage.setItem("isGuest", "false");
+
         router.push("/home");
       } else {
         console.log("No such user document!");
