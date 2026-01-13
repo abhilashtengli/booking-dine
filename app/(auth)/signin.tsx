@@ -55,6 +55,10 @@ export default function Signin() {
       }
     }
   };
+  const handleGuest = async () => {
+    await AsyncStorage.setItem("isGuest", "true");
+    router.push("/home");
+  };
 
   return (
     <SafeAreaView className={`bg-[#2b2b2b]`}>
@@ -127,7 +131,7 @@ export default function Signin() {
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={() => router.push("/home")}
+                    onPress={() => handleGuest()}
                     className=" my-2 py-2 bg-[#2b2b2b]  border border-[#f49b33] rounded-lg "
                   >
                     <Text className="text-xl text-[#f49b33]  text-center tracking-wider">

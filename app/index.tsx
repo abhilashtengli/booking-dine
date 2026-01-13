@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import {
   Image,
@@ -11,6 +12,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const logo = require("@/assets/images/dinetimelogo.png");
 const entryImg = require("@/assets/images/Frame.png");
 export default function Index() {
+  const handleGuest = async () => {
+    await AsyncStorage.setItem("isGuest", "true");
+    router.push("/home");
+  };
   return (
     <SafeAreaView className={`bg-[#2b2b2b]`}>
       <StatusBar barStyle={"light-content"} backgroundColor={"#2b2b2b"} />
@@ -27,7 +32,7 @@ export default function Index() {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => router.push("/home")}
+              onPress={() => handleGuest()}
               className=" my-2 py-2 bg-[#2b2b2b]  border border-[#f49b33] rounded-lg "
             >
               <Text className="text-xl text-[#f49b33]  text-center tracking-wider">

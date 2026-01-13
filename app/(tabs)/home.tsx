@@ -49,6 +49,7 @@ export default function Home() {
     const init = async () => {
       await getRestaurants();
       const storedEmail = await AsyncStorage.getItem("userEmail");
+      const guestUser = await AsyncStorage.getItem("isGuest");
       setEmail(storedEmail);
     };
 
