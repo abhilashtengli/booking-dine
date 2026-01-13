@@ -49,7 +49,6 @@ export default function Index() {
               className="flex flex-row justify-center items-center gap-x-2"
               onPress={() => router.push("/(auth)/signin")}
             >
-              {" "}
               {/* /signin */}
               <Text className="text-white font-semibold">Already an User?</Text>
               <Text className="text-base font-semibold underline text-[#f49b33] ">

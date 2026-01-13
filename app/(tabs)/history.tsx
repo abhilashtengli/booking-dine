@@ -75,9 +75,10 @@ export default function History() {
         <FlatList
           data={bookings}
           onRefresh={fetchBookings}
+          refreshing={loading}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View className="p-4 border border-[#f49b33] my-2 mx-4 rounded-lg ">
+            <View className="p-4 border border-[#f49b33] my-2 mx-4 rounded-lg">
               <Text className="text-white tracking-wide">
                 Date : {new Date(item.date).toDateString()}
               </Text>
