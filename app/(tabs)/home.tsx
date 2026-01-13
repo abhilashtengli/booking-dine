@@ -16,6 +16,7 @@ import { BlurView } from "expo-blur";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "@/config/firebaseConfig";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const logo = require("@/assets/images/dinetimelogo.png");
 const banner = require("@/assets/images/homeBanner.png");
 
@@ -31,6 +32,7 @@ type Restaurant = {
 export default function Home() {
   const router = useRouter();
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [email, setEmail] = useState<string | null>(null);
 
   const getRestaurants = async () => {
     const q = query(collection(db, "restaurants"));
@@ -44,7 +46,13 @@ export default function Home() {
   };
 
   useEffect(() => {
-    getRestaurants();
+    const init = async () => {
+      await getRestaurants();
+      const storedEmail = await AsyncStorage.getItem("userEmail");
+      setEmail(storedEmail);
+    };
+
+    init();
   }, []);
 
   const renderItem: ListRenderItem<Restaurant> = ({ item }) => (

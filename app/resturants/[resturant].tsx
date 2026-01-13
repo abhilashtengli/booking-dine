@@ -25,11 +25,13 @@ export default function Resturant() {
   const [carouselData, setCarouselData] = useState<CarouselItem[] | null>(null);
   const [slotsData, setSlotsData] = useState<string[] | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-  const { resturant } = useLocalSearchParams();
   const flatlistRef = useRef<FlatList<string>>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [date, setDate] = useState(new Date());
   const [selectedNumber, setSelectedNumber] = useState(0);
+  const { resturant } = useLocalSearchParams<{ resturant: string }>();
+
+  console.log("Resturant Param: ", resturant);
 
   const handleLocation = async () => {
     const url = "https://maps.app.goo.gl/nPYQ877t4MgN8Yux8";
@@ -286,6 +288,7 @@ export default function Resturant() {
         </View>
         <View className="flex-1">
           <FindSlots
+            resturant={resturant}
             date={date}
             selectedNumber={selectedNumber}
             slots={slotsData}

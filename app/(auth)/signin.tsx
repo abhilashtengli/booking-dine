@@ -1,6 +1,7 @@
 import React from "react";
 import { router } from "expo-router";
 import {
+  Alert,
   Image,
   ScrollView,
   StatusBar,
@@ -12,10 +13,48 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Formik } from "formik";
 import { signInSchemaValidation } from "@/utils/signupSchema";
+import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const logo = require("@/assets/images/dinetimelogo.png");
 const entryImg = require("@/assets/images/Frame.png");
 export default function Signin() {
-  const handleSignin = () => {};
+  const auth = getAuth();
+  const db = getFirestore();
+  const handleSignin = async (values: { email: string; password: string }) => {
+    try {
+      const userCredentials = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      const user = userCredentials.user;
+
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        console.log("User Data:", userDoc.data());
+        await AsyncStorage.setItem("userEmail", values.email);
+        router.push("/home");
+      } else {
+        console.log("No such user document!");
+      }
+    } catch (error: any) {
+      if (error.code === "auth/invalid-credential") {
+        Alert.alert("Signin failed", "Incorrect credential.", [{ text: "OK" }]);
+        values.email = "";
+        values.password = "";
+      } else {
+        console.log("Error during signin: ", error);
+        Alert.alert(
+          "Signin Error",
+          "The Unexpected Error occurred, Please try again later.",
+          [{ text: "OK" }]
+        );
+        values.email = "";
+        values.password = "";
+      }
+    }
+  };
 
   return (
     <SafeAreaView className={`bg-[#2b2b2b]`}>
@@ -80,7 +119,7 @@ export default function Signin() {
                     </Text>
                   )}
                   <TouchableOpacity
-                    onPress={() => handleSubmit}
+                    onPress={() => handleSubmit()}
                     className="mt-6 my-2 py-2 bg-[#f49b33] text-neutral-500 rounded-lg "
                   >
                     <Text className="text-xl font-semibold text-center tracking-wider">
